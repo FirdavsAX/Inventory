@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="Lesson07.Views.CustomerDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:views="clr-namespace:Lesson07.Views"
+             xmlns:local="clr-namespace:Lesson07.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="600">
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TabControl Margin="20"
+                    Grid.Row="0">
+            <TabItem Header="Customer Details">
+                <StackPanel Background="White" Margin="10" 
+            HorizontalAlignment="Center">
+                    <Viewbox Width="100"
+                             Height="100">
+                        <materialDesign:PackIcon Kind="User"/>
+                    </Viewbox>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="50,0">
+                        <TextBlock Text="Id"
+                                   TextAlignment="Center"
+                                   FontSize="25"
+                                   Width="200"
+                                   Background="DimGray"/>
+                        <TextBlock Background="LightGray" 
+                                   Text="{Binding Customer.Id}"
+                                   HorizontalAlignment="Right"
+                                   FontSize="25"
+                                   Width="200"
+                                   TextAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Margin="50,20,50,0"
+                            Orientation="Horizontal">
+                        
+                        <TextBlock Text="First name"
+                                   TextAlignment="Center"
+                                   FontSize="25"
+                                   Width="200"
+                                   Background="DimGray"/>
+                        <TextBlock Background="LightGray"
+                           HorizontalAlignment="Right"
+                                   Text="{Binding Customer.FirstName}"
+                           FontSize="25"
+                           Width="200"
+                           TextAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                             Margin="50,20,50,0">
+                        <TextBlock Text="Last name"
+                               TextAlignment="Center"
+                               FontSize="25"
+                               Width="200"
+                               Background="DimGray"/>
+                        <TextBlock Background="LightGray" 
+                                    Text="{Binding Customer.LastName}"                      
+                               HorizontalAlignment="Right"
+                               FontSize="25"
+                               Width="200"
+                               TextAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                             Margin="50,20,50,0">
+                        <TextBlock Text="Address"
+                           TextAlignment="Center"
+                           FontSize="25"
+                           Width="200"
+                           Background="DimGray"/>
+                        <TextBlock Background="LightGray"
+                                Text="{Binding Customer.Address}"
+                                   Padding="10"
+                                HorizontalAlignment="Right"
+                           Width="200"
+                           TextAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                             Margin="50,20,50,0">
+                        <TextBlock Text="Phone number"
+                               TextAlignment="Center"
+                               FontSize="25"
+                               Width="200"
+                               Background="DimGray"/>
+                        <TextBlock Background="LightGray" 
+                                   Text="{Binding Customer.PhoneNumber}"
+                           HorizontalAlignment="Right"
+                           FontSize="25"
+                           Width="200"
+                           TextAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="Sales">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="AuTo"/>
+                    </Grid.RowDefinitions>
+                    
+                        <DataGrid Grid.Row="1"
+                        x:Name="ProductsDataGrid"
+                        Margin="10"
+                        AutoGenerateColumns="False"
+                        IsReadOnly="True"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding CustomerSales}"
+                        SelectedItem="{Binding SelectedSales}"
+                        SelectionMode="Single"
+                        SelectionUnit="FullRow"
+                        VerticalScrollBarVisibility="Auto">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding ="{Binding Id}"
+                            Header="Id"/>
+                                <DataGridTextColumn Binding="{Binding SaleDate}"
+                            Header="Date"/>
+                                <DataGridTextColumn Binding="{Binding TotalDue,StringFormat={}{0:C0}.00}"
+                            Header="Total Due"/>
+                                <DataGridTextColumn Binding="{Binding TotalPaid,StringFormat={}{0:C0}.00}"
+                            Header="Total Paid"/>
+                                <DataGridTextColumn Binding="{Binding TotalDiscount,StringFormat={}{0:C0}.00}"
+                            Header="Total Discount"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    <StackPanel Grid.Row="2"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal">
+                        <Button Name="PrevButton"
+                                Width="50"
+                                Command="{Binding PrevCommand}"
+                                IsEnabled="False"
+                                Margin="25,5">
+                            <materialDesign:PackIcon Kind="ArrowLeft"/>
+                        </Button>
+                        <TextBlock Name="PageNumberText"
+                                   Width="100"
+                                   Margin="10"/>
+                        <Button Width="50"
+                                Command="{Binding NextCommand}"
+                                Name="NextButton">
+                            <materialDesign:PackIcon Kind="ArrowRight"/>
+                        </Button>
+
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Grid.Row="1">
+            <Button Width="200" Margin="40,0,0,10"
+                    Content="Back"
+                    Background="DimGray" Command="{Binding BackCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

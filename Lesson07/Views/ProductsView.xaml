@@ -1,0 +1,191 @@
+﻿<UserControl
+    x:Class="Lesson07.Views.ProductsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Lesson07.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="25,0,25,0">
+            <TextBox
+                Width="250"
+                Height="40"
+                Padding="10"
+                HorizontalAlignment="Left"
+                materialDesign:HintAssist.Hint="Search products..."
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox
+                Name="CategoriesCombobox"
+                Width="200"
+                Height="40"
+                Padding="10"
+                materialDesign:HintAssist.Hint="Filter by category"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding SelectedCategory}"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+            <Button
+                Height="40"
+                HorizontalAlignment="Right"
+                Command="{Binding CreateCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Plus" />
+                    <TextBlock Text="Create" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <DataGrid
+            x:Name="ProductsDataGrid"
+            Grid.Row="1"
+            Margin="25,10,25,10"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Products}"
+            SelectedItem="{Binding SelectedProduct}"
+            SelectionMode="Single"
+            SelectionUnit="FullRow"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Id" />
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Description}"
+                    Header="Description" />
+                <DataGridTextColumn Binding="{Binding Price, StringFormat={}{0:C0}.00}" Header="Price" />
+                <DataGridTextColumn Binding="{Binding ExpireDate}" Header="Expire Date" />
+                <DataGridTextColumn Binding="{Binding Category.Name}" Header="Category" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Background="Red" Content="Delete" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding EditCommand}" Header="Edit Product">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="PencilAddOutline" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Command="{Binding DeleteCommand}" Header="Delete Product">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="TrashCan" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.InputBindings>
+                <MouseBinding Command="{Binding EditCommand}" MouseAction="LeftDoubleClick" />
+            </DataGrid.InputBindings>
+        </DataGrid>
+        <StackPanel 
+            Grid.Row="2"
+            Orientation="Horizontal" 
+            Margin="15">
+            <Button Width="40"
+                    Command="{Binding PrimaryPageCommand}"
+                    IsEnabled="{Binding IsEnablePrimaryPage}"
+                    Padding="0"
+                     Margin="8,0">
+                <materialDesign:PackIcon Kind="SkipBackward"/>
+            </Button>
+
+            <Button Width="40"
+                    Command="{Binding PrevPageCommand}"
+                    IsEnabled="{Binding IsEnablePrevPage}"
+                    Margin="8,0"
+                    Padding="0">
+                <materialDesign:PackIcon Kind="ArrowLeft"/>
+            </Button>
+
+            <Button Width="40"
+                    Command="{Binding FirstPageCommand}"
+                    IsEnabled="{Binding IsEnableFirstPage}"
+                    Margin="8,0,3,0"
+                    Content="{Binding FirstPage}"
+                    Padding="0"
+                    FontSize="10"/>
+
+            <Button Width="40"
+                Margin="3,0,3,0"
+                    Content="{Binding SecondPage}"
+                    Command="{Binding SecondPageCommand}"
+                    IsEnabled="{Binding IsEnableSecondPage}"
+                    Padding="10"
+                    FontSize="10"
+                    />
+
+            <Button Width="40"
+                    Margin="3,0,8,0"
+                    Command="{Binding ThirdPageCommand}"
+                    Content="{Binding ThirdPage}"
+                    IsEnabled="{Binding IsEnableThirdPage}"
+                    Padding="10"
+                    FontSize="10"
+                    />
+
+            <Button Width="40"
+                    Command="{Binding NextPageCommand}"
+                    IsEnabled="{Binding IsEnableNextPage}"
+                    Margin="8,0"
+                    Padding="0">
+                <materialDesign:PackIcon Kind="ArrowRight" />
+            </Button>
+
+            <Button Width="40"
+                    Margin="8,0"
+                    Command="{Binding LastPageCommand}"
+                    IsEnabled="{Binding IsEnableLastPage}"
+                    Padding ="0"
+                    >
+                <materialDesign:PackIcon Kind="SkipForward"/>
+            </Button>
+
+            <TextBlock 
+                Margin="60,0,0,0"
+                Width="150"
+                Text="{Binding PageString}"/>
+        </StackPanel>
+
+        <StackPanel     
+            HorizontalAlignment="Right"
+            Grid.Row="2"
+            Orientation="Horizontal" 
+            Margin="15">
+
+            <Button Width="40"
+                    Command="{Binding FifteenPageCommand}"
+                    Margin="3,0,3,0"
+                    Content="15"
+                    Padding="0,0,0,0"/>
+
+            <Button Width="40"
+                Margin="3,0,3,0"
+                    Command="{Binding ThirtyPageCommand}"
+                    Content="30"
+                    Padding="0"/>
+
+            <Button Width="40"
+                    Margin="3,0"
+                    Content="50"
+                    Command="{Binding FiftyPageCommand}"
+                    Padding="0"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
